@@ -1,16 +1,15 @@
-# This is a sample Python script.
+import csv
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def read_csv(fileName):
+    with open(fileName) as fp:
+        reader = csv.reader(fp, delimiter=",", quotechar='"')
+        # next(reader, None)  # skip the headers
+        data_read = [row for row in reader]
 
+    return data_read
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    csv_data = read_csv("../Tags_01_extended.csv")
+    print(csv_data)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
