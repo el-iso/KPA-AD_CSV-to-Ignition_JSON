@@ -80,3 +80,7 @@ if __name__ == '__main__':
     }
 
     print(json.dumps(ignitionFormattedObject))
+
+    f = open("tags_01_extended.json", "x")
+    f.write(json.dumps(ignitionFormattedObject))
+    f.close()
