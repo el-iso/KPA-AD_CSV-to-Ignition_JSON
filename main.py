@@ -60,20 +60,11 @@ if __name__ == '__main__':
 
     usefulRowsOnly = [row for row in csv_data if not row[ADVariables.MOD_BUS_ADDRESS] == ""]
 
-    ignitionFormattedList = []
-
-    exampleIgnitionObject = {
-      "valueSource": "opc",
-      "opcItemPath": "[ModBusTestPLC]HRS27:40",
-      "dataType": "String",
-      "name": "SQLInsert_MaterialNumber",
-      "tagType": "AtomicTag",
-      "opcServer": "Ignition OPC UA Server"
-    },
+    ignitionFormattedTagList = []
 
     for row in usefulRowsOnly:
         parse_ignition_path(row)
-        ignitionFormattedList.append({
+        ignitionFormattedTagList.append({
             "valueSource": "opc",
             "opcItemPath": "[ModBusTestPLC]" + parse_ignition_path(row),
             "dataType": sys_id_parse_type(row[ADVariables.SYSTEM_ID]),
@@ -82,5 +73,10 @@ if __name__ == '__main__':
             "opcServer": "Ignition OPC UA Server"
         })
 
+    ignitionFormattedObject = {
+        "name": "MyImportFolder",
+        "tagType": "Folder",
+        "tags": ignitionFormattedTagList
+    }
 
-    print(print(json.dumps(ignitionFormattedList)))
+    print(json.dumps(ignitionFormattedObject))
