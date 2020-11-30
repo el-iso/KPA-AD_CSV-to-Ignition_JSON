@@ -45,10 +45,13 @@ def parse_ignition_path(data):
     else:
         return ""
 
+    # modulo is maybe not the best way to handle this but it works for now
+    # Some modbus addresses are prefixed with a number (not part of the actual address ex. 400021)
+    # so 400021 % 10000 gives 21 which is the value we care about
     if type_prefix == "HRS":
-        modbus_suffix = str(int(data[ADVariables.MOD_BUS_ADDRESS]) % 100)  + ":" + str(data[ADVariables.STRING_LENGTH])
+        modbus_suffix = str(int(data[ADVariables.MOD_BUS_ADDRESS]) % 10000)  + ":" + str(data[ADVariables.STRING_LENGTH])
     else :
-        modbus_suffix = str(int(data[ADVariables.MOD_BUS_ADDRESS]) % 100)
+        modbus_suffix = str(int(data[ADVariables.MOD_BUS_ADDRESS]) % 10000)
 
 
     return type_prefix + modbus_suffix
