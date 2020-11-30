@@ -18,14 +18,18 @@ def read_csv(fileName):
 
     return data_read
 
-def sys_id_parse_type(system_id: str):
-    if system_id.startswith("C-"):
+def sys_id_parse_type(_system_id: str):
+    sys_id = _system_id
+    if sys_id.startswith('AR1'):
+        sys_id = sys_id[3:]
+
+    if sys_id.startswith("C-"):
         return "Boolean"
-    elif system_id.startswith("STR-"):
+    elif sys_id.startswith("STR-"):
         return "String"
-    elif system_id.startswith("S32-"):
+    elif sys_id.startswith("S32-"):
         return "Int4"
-    elif system_id.startswith("F32-"):
+    elif sys_id.startswith("F32-"):
         return "Float4"
     else:
         return ""
@@ -33,14 +37,17 @@ def sys_id_parse_type(system_id: str):
 def parse_ignition_path(data):
     type_prefix = ""
     modbus_suffix = ""
+    sys_id = data[ADVariables.SYSTEM_ID]
+    if sys_id.startswith('AR1'):
+        sys_id = sys_id[3:]
 
-    if data[ADVariables.SYSTEM_ID].startswith("C-"):
+    if sys_id.startswith("C-"):
         type_prefix = "C"
-    elif data[ADVariables.SYSTEM_ID].startswith("STR-"):
+    elif sys_id.startswith("STR-"):
         type_prefix = "HRS"
-    elif data[ADVariables.SYSTEM_ID].startswith("S32-"):
+    elif sys_id.startswith("S32-"):
         type_prefix = "HRI"
-    elif data[ADVariables.SYSTEM_ID].startswith("F32-"):
+    elif sys_id.startswith("F32-"):
         type_prefix = "HRF"
     else:
         return ""
@@ -66,7 +73,6 @@ if __name__ == '__main__':
     ignitionFormattedTagList = []
 
     for row in usefulRowsOnly:
-        parse_ignition_path(row)
         ignitionFormattedTagList.append({
             "valueSource": "opc",
             "opcItemPath": "[ModBusTestPLC]" + parse_ignition_path(row),
