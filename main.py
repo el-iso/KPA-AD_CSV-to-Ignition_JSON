@@ -77,7 +77,7 @@ if __name__ == '__main__':
             "valueSource": "opc",
             "opcItemPath": "[ModBusTestPLC]" + parse_ignition_path(row),
             "dataType": sys_id_parse_type(row[ADVariables.SYSTEM_ID]),
-            "name": row[ADVariables.TAG_NAME],
+            "name": row[ADVariables.TAG_NAME].replace('.', '_'),
             "tagType": "AtomicTag",
             "opcServer": "Ignition OPC UA Server"
         })
